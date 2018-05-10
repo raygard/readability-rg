@@ -1,0 +1,20 @@
+### Stuff to add to default sdist (source distribution) ###
+
+# Top level docs including license, changelog
+include *.rst
+
+# Utilities for building Bloom filter data
+include util/*
+exclude util/test_*
+
+# Demo program
+include demo/*
+
+# Texts for demo
+include texts/*
+
+# References
+include references/*
+
+# Documentation
+include doc/go_make_docs_folder.cmd doc/source/*
