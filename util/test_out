@@ -1,0 +1,28 @@
+Without Bloom filters
+All CMU dict words
+[(-5, 1), (-4, 6), (-3, 28), (-2, 289), (-1, 6822), (0, 114146), (1, 4520), (2, 54)]
+11720 errors in 125866 words (9.311%); net errors: -2885 (2.292%)
+
+CMU dict words intersect with Brown corpus words
+[(-3, 2), (-2, 14), (-1, 1162), (0, 25180), (1, 1290), (2, 10)]
+2478 errors in 27658 words (8.959%); net errors: 114 (0.412%)
+
+CMU dict words intersect with top 12000 Brown corpus words
+[(-3, 1), (-2, 2), (-1, 337), (0, 8741), (1, 388), (2, 2)]
+730 errors in 9471 words (7.708%); net errors: 48 (0.507%)
+
+
+With Bloom filters
+All CMU dict words
+[(-5, 1), (-4, 6), (-3, 28), (-2, 289), (-1, 7), (0, 125475), (1, 6), (2, 54)]
+391 errors in 125866 words (0.311%); net errors: -584 (0.464%)
+
+CMU dict words intersect with Brown corpus words
+[(-3, 2), (-2, 14), (-1, 2), (0, 27629), (1, 1), (2, 10)]
+29 errors in 27658 words (0.105%); net errors: -15 (0.054%)
+
+CMU dict words intersect with top 12000 Brown corpus words
+[(-3, 1), (-2, 2), (0, 9466), (2, 2)]
+5 errors in 9471 words (0.053%); net errors: -3 (0.032%)
+
+OK

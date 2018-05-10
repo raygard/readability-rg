@@ -1,0 +1,10 @@
+Syllable count errors without Bloom filter:
+[(-5, 1), (-4, 6), (-3, 28), (-2, 289), (-1, 6822), (0, 114146), (1, 4520), (2, 54)]
+11720 errors in 125866 words (9.311%); net errors: -2885 (2.292%)
+Bloom filter stats:
+Bloom filter undercount_filter: num_probes: 13  num_bins: 130783  num_bins_set: 64384 (density: 49.23%)
+undercount_filter in cmudict: 6828 hits  6822 keys  6 non-key hits  125866 dict words  0.00005 errs
+Bloom filter overcount_filter: num_probes: 13  num_bins: 86677  num_bins_set: 42599 (density: 49.15%)
+overcount_filter in cmudict: 4531 hits  4520 keys  11 non-key hits  125866 dict words  0.00009 errs
+False undercount hits (6): algy ardella gourlay leamon petterson pseudonym
+False overcount hits (10): cama car damsel evaded macromedia quintela semolina spohr wayne winokur
