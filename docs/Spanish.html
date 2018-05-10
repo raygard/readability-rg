@@ -1,0 +1,139 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Notes on Spanish functionality &#8212; Readability 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="References" href="references.html" />
+    <link rel="prev" title="Notes on development" href="notes.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="notes-on-spanish-functionality">
+<span id="spanish-notes"></span><h1>Notes on Spanish functionality<a class="headerlink" href="#notes-on-spanish-functionality" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="syllabification">
+<h2>Syllabification<a class="headerlink" href="#syllabification" title="Permalink to this headline">¶</a></h2>
+<p>I was able to develop a syllable counter for Spanish in a more straightforward manner than was the case for English.
+Spanish follows regular rules for syllabification.
+I count runs of vowels and then adjust for those runs that form two vowel sounds.
+After counting vowels of several hundred frequent words in a small Spanish corpus, I had someone fluent in Spanish check the counts and she found that they were all correct.
+The counter may not be perfect but it is good enough and quite a bit better than the English syllable counter.</p>
+<p>My code is based on:</p>
+<p>Humphries, Glenn: Syllabification: The Division of Words into Syllables. <a class="reference external" href="http://glenn.humphries.com/Notebook/toc.htm">http://glenn.humphries.com/Notebook/toc.htm</a></p>
+<p>But this page is no longer available.</p>
+<p>This Web page is also referenced in:</p>
+<p>Cuayáhuitl, Heriberto: A Syllabification Algorithm for Spanish, in Computational Linguistics and Intelligent Text Processing, 5th International Conference, CICLing 2004 Seoul, Korea, February 15-21, 2004 Proceedings, published as Lecture Notes in Computer Science (LNCS) vol. 2945 (Springer), pp. 412-415.</p>
+<p>As of this writing, it can be found at <a class="reference external" href="https://pdfs.semanticscholar.org/51a1/5db989f4b62a2beb725d71e5db2d210d6141.pdf">https://pdfs.semanticscholar.org/51a1/5db989f4b62a2beb725d71e5db2d210d6141.pdf</a>,
+or you can read it via the “preview” at <a class="reference external" href="https://link.springer.com/chapter/10.1007%2F978-3-540-24630-5_49">https://link.springer.com/chapter/10.1007%2F978-3-540-24630-5_49</a>.</p>
+<p>This is a more formal description of a Spanish syllabification algorithm that is based on that in the no-longer-existing page.
+I have not compared it with the Humphries Web page or attempted to implement it.</p>
+</div>
+<div class="section" id="tokenization-and-sentence-boundary-detection">
+<h2>Tokenization and sentence boundary detection<a class="headerlink" href="#tokenization-and-sentence-boundary-detection" title="Permalink to this headline">¶</a></h2>
+<p>I use the same code for tokenization and sentence boundary detection for both English and Spanish.</p>
+</div>
+<div class="section" id="spanish-readability-measures">
+<h2>Spanish readability measures<a class="headerlink" href="#spanish-readability-measures" title="Permalink to this headline">¶</a></h2>
+<p>The study of readability or legibility measures for Spanish apparently began with the 1959 paper of Jose Fernández Huerta, “Medidas sencillas de lecturabilidad” (“Simple Measures of Readability”), <em>Consigna</em> 214, 29-32.
+Huerta adapted Flesch’s formula by slightly changing the coefficients, and his formula was the most often used method of evaluating readability of Spanish text for many years.</p>
+<p>But there are serious problems with Huerta’s formula.
+In 2007, Inés Mª Barrio Cantalejo produced her PhD thesis, “Legibilidad y salud: los métodos de medición de la legibilidad y su aplicación al diseño de folletos educativos sobre salud”, in which she criticized Huerta’s approach for not explaining his methodology for adjusting Flesch’s formula and for not validating his table showing what scores correspond to what difficulty levels.
+A more severe problem was noticed by Gwillim Law (see <a class="reference external" href="https://linguistlist.org/issues/22/22-2332.html">https://linguistlist.org/issues/22/22-2332.html</a>), who observed that Huerta <em>inverted</em> the meaning of one of the terms of Flesch’s formula.
+Huerta cited the <strong>F</strong> term in Flesch, which is words per sentence, as sentences per 100 words.
+This completely changes the direction of the readability score, from more words per sentence causing a lower readability to more words per sentence causing a higher readability, which is intuitively wrong.
+Huerta also took liberties with the original Flesch values, rounding the original 206.835, 0.846, and 1.015 to 206.84, 0.85, and 1.02 respectively, but this is a minor change compared to inverting the meaning of the last term.
+(One may also wonder whether there was ever any value of using terms precise to six significant figures, or five figures as in the SMOG index formula, when the resulting readability value can only be a rough guide in any case.)</p>
+<p>So in addition to the <code class="docutils literal notranslate"><span class="pre">Huerta_ease()</span></code> method, I have also included <code class="docutils literal notranslate"><span class="pre">Huerta_corrected()</span></code> which uses 1.02 words per sentence in place of 102 sentences per word (same as 1.02 sentences per 100 words).</p>
+<p>Barrio Cantalejo’s thesis strongly supports the use (in place of Huerta) of the work of Francisco Szigriszt Pazos, who attempted to produce adjustments to Flesch’s formula in a more scientific (rigorous?) manner.
+Szigrist’s “Perspicuity Formula” is 206.835 - 62.3 syllables/word - words/sentence.
+This is referred to by Barrio Cantelejo as Formula de Perspicuidad (Clarity Formula) or Indice de Legibilidad de Flesch-Szigriszt (IFSZ, Flesch-Szigriszt Readability Index).
+We implement this as the IFSZ_index() method in Readability().</p>
+<p>Barrio Cantalejo’s thesis also provides a difficulty scale she refers to as Inflesz Scale Grade (Grado en la escala INFLESZ).
+The scale has five difficulty grades based on the IFSZ index: &lt; 40 very difficult; 40-55 difficult; 55-65 difficult; 65-80 quite easy; &gt; 80 very easy.
+It is unclear which category borderline values 55 and 65 fall in.
+I have implemented the Inflesz_scale() method as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">IFSZ_index</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">40</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;very difficult&#39;</span>
+<span class="k">elif</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">55</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;somehwat difficult&#39;</span>
+<span class="k">elif</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">65</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;normal&#39;</span>
+<span class="k">elif</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">80</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;quite easy&#39;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;very easy&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="notes.html" title="previous chapter">Notes on development</a></li>
+      <li>Next: <a href="references.html" title="next chapter">References</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018 Ray Gardner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/Spanish.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

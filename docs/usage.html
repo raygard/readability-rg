@@ -1,0 +1,328 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Quick start &#8212; Readability 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Notes on development" href="notes.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="quick-start">
+<span id="overview-toplevel"></span><h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<p>About the simplest example for the module may be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">readability</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">readability</span><span class="o">.</span><span class="n">Readability</span><span class="p">()</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n(?:\s*\n)+&#39;</span><span class="p">,</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Flesh-Kincaid reading ease: </span><span class="si">%4.1f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">r</span><span class="o">.</span><span class="n">FRES</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Flesh-Kincaid grade level:  </span><span class="si">%4.1f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">r</span><span class="o">.</span><span class="n">FK_grade</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Gunning Fog index:          </span><span class="si">%4.1f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">r</span><span class="o">.</span><span class="n">Fog_index</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;SMOG index:                 </span><span class="si">%4.1f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">r</span><span class="o">.</span><span class="n">SMOG_index</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> sentences; </span><span class="si">%d</span><span class="s1"> words; </span><span class="si">%d</span><span class="s1"> syllables&#39;</span> <span class="o">%</span> <span class="n">r</span><span class="o">.</span><span class="n">stats</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>(Add <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">io</span></code> and use <code class="docutils literal notranslate"><span class="pre">io.open()</span></code> if using Python 2.)</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">re.split()</span></code> is used to separate into chunks any text that is separated by one or more blank lines.
+If this is not done, some text that spans paragraphs will be recognized as a single sentence.</p>
+<p>Run against the Project Gutenberg text file for Sir Arthur Conan Doyle’s “A Study in Scarlet”, it produces this output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Flesh-Kincaid reading ease: 74.4
+Flesh-Kincaid grade level:   6.9
+Gunning Fog index:           9.8
+SMOG index:                  9.7
+2738 sentences; 44132 words; 60559 syllables
+</pre></div>
+</div>
+<p>(I used the text from <a class="reference external" href="http://www.gutenberg.org/files/244/244-0.txt">http://www.gutenberg.org/files/244/244-0.txt</a> dated 2016-09-30 and removed the front and end matter, including the transcriber’s footnotes.)</p>
+</div>
+<div class="section" id="demo-program">
+<h1>Demo program<a class="headerlink" href="#demo-program" title="Permalink to this headline">¶</a></h1>
+<p>I have included a program <code class="docutils literal notranslate"><span class="pre">rdblty.py</span></code> in the source distribution and GitHub repo that demonstrates all or most of the features of the Readability class and its associated modules.
+Its usage (command line) is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: rdblty.py -h -s -e encoding -n --sentences -w --syllables format files...
+Where
+    -h, --help            This usage screen
+    -e  encoding          input file encoding (default UTF-8)
+    -S, --Spanish         assume input files are Spanish
+    -w, --words           dump words
+    -s, --sentences       display sentences
+    -n                    show syllable counts (forces --sentences)
+    --syllables format    format for syllable count (implies -n)
+                            default is &quot;%s{%d}&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="code-files-included">
+<h1>Code files included<a class="headerlink" href="#code-files-included" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">readability.py - Main class module</div>
+<div class="line">syllable_count_eng.py - English syllable counter</div>
+<div class="line">syllable_count_eng_bf.py - English syllable counter with Bloom filter corrections</div>
+<div class="line">syllable_count_spa.py - Spanish syllable counter</div>
+<div class="line">Bloom_filter.py - Bloom filter code</div>
+<div class="line">Bloom_filter_data.py - Bloom filter data</div>
+<div class="line"><br /></div>
+<div class="line">Bloom_filter_config.py - Bloom filter configuration</div>
+<div class="line">Bloom_filter_Hettinger.py - Raymond Hettinger’s original Bloom filter (not used; included as documentation)</div>
+<div class="line">make_Bloom_filter.py - program to generate the Bloom filter data from the CMU Pronouncing Dictionary</div>
+<div class="line">make_cmudict_syllables.py - program to convert the CMU dictionary to JSON format</div>
+</div>
+</div>
+<div class="section" id="module-contents">
+<h1>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class">
+<h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="readability">
+<h3>readability()<a class="headerlink" href="#readability" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">readability</span></code> module defines a single class:</p>
+<p>Readability([<a class="reference internal" href="#get-sentences">get_sentences</a>] [, <a class="reference internal" href="#count-syllables">count_syllables</a>] [, <a class="reference internal" href="#show-syllable-counts">show_syllable_counts</a>] [, <a class="reference internal" href="#dw">dw</a>] [, <a class="reference internal" href="#ds">ds</a>] [, <a class="reference internal" href="#language">language</a>])</p>
+<p>Use this to create a readability object to evaluate a single document.
+The module may also be used to tokenize text into words and sentences without evaluating readability.</p>
+<ul class="simple" id="get-sentences">
+<li><a class="reference internal" href="#get-sentences">get_sentences</a> is a Boolean (default is <code class="docutils literal notranslate"><span class="pre">True</span></code>).
+If True, the <code class="docutils literal notranslate"><span class="pre">read()</span></code> method will return the sentences it has tokenized from the text it is given, in the form of a list of lists of tokens, each list of tokens representing a sentence.</li>
+</ul>
+<ul class="simple" id="count-syllables">
+<li><a class="reference internal" href="#count-syllables">count_syllables</a> is a Boolean (default is <code class="docutils literal notranslate"><span class="pre">True</span></code>).
+It must be <code class="docutils literal notranslate"><span class="pre">True</span></code> to get readability statistics.
+It may be <code class="docutils literal notranslate"><span class="pre">False</span></code> if, for example, you only need word and sentence counts.
+(But note that the word count will be differ depending on whether this is True or False; see below for more information.)</li>
+</ul>
+<ul id="show-syllable-counts">
+<li><p class="first"><a class="reference internal" href="#show-syllable-counts">show_syllable_counts</a> may be a boolean or a string; default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+This is only relevant if <code class="docutils literal notranslate"><span class="pre">get_sentences</span></code> is True.
+If <code class="docutils literal notranslate"><span class="pre">show_syllable_counts</span></code> is True, then the sentences returned by <code class="docutils literal notranslate"><span class="pre">read()</span></code> will have syllable counts embedded with each word, in the form “word{count}”, e.g. “This{1} etext{2} is{1} prepared{2} directly{3}…”</p>
+<blockquote>
+<div><p>Alternatively, <code class="docutils literal notranslate"><span class="pre">show_syllable_counts</span></code> may be a format string.
+If it is a format string and it contains “word” and “count”, the word and count will be formatted using:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">show_syllable_counts</span> <span class="o">%</span> <span class="nb">dict</span><span class="p">(</span><span class="n">word</span><span class="o">=</span><span class="n">word</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This may be used if you want to display the count in front of the word, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;%(count)d|%(word)s&quot;</span></code>.</p>
+<p>Otherwise the word and count will be formatted using:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">show_syllable_counts</span> <span class="o">%</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<ul class="simple" id="dw">
+<li><a class="reference internal" href="#dw">dw</a> may be a dictionary in which “words” are returned with a count of their occurrences; default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+If provided, it should be empty initially.</li>
+</ul>
+<ul class="simple" id="ds">
+<li><a class="reference internal" href="#ds">ds</a> may be a dictionary in which “separators” are returned with a count of their occurrences; default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+If provided, it should be empty initially.</li>
+</ul>
+<ul class="simple" id="language">
+<li><a class="reference internal" href="#language">language</a> may be “eng” for English or “spa” for Spanish; the default is English.</li>
+</ul>
+</div>
+<div class="section" id="more-about-words">
+<h3>More about “words”<a class="headerlink" href="#more-about-words" title="Permalink to this headline">¶</a></h3>
+<p>The module tokenizes “words” based on a regular expression.
+A word is, roughly, one of the following:</p>
+<ul class="simple">
+<li>a URL beginning <a class="reference external" href="http://">http://</a> and including legal URL characters, but not ending with a period or comma.
+This is a very naive URL recognizer and will not always scan a URL perfectly.</li>
+<li>a word beginning with a letter and including letters, dots, ampersands, apostrophes, and hyphens, but not ending with an ampersand, apostrophe, or hyphen, nor can it contain adjacent dots, ampersands, apostrophes, or hyphens.</li>
+<li>a number beginning with a decimal digit and including digits, dots, commas, and hyphens, but ending with a digit.</li>
+<li>one or more periods</li>
+<li>one or more exclamation points</li>
+<li>one or more question marks.</li>
+</ul>
+<p>The tokenizer will return periods, exclamation points, and question marks as “words” because it simplifies the work for the sentence boundary detector.</p>
+<p>When the syllable counter is enabled (as it is by default), the module will only count as words those “words” that have a non-zero syllable count.
+When the syllable counter is disabled, the module counts all tokenized words.</p>
+<p>Everything that’s not a “word” is a separator.
+The tokenizer can return the separators as a dictionary with counts.
+There will be a separator between every pair of words, so if two words are adjacent, the separator will be the empty string.</p>
+</div>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="read">
+<h3>read()<a class="headerlink" href="#read" title="Permalink to this headline">¶</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">read(string)</span></code> or <code class="docutils literal notranslate"><span class="pre">read(list_of_string)</span></code> to pass text to the module.
+You should invoke <code class="docutils literal notranslate"><span class="pre">read()</span></code> only once per instance of the class.
+If you have the entire text in a string, use the first form.
+You may also pass a list of strings to the <code class="docutils literal notranslate"><span class="pre">read()</span></code> method.
+All text should be Unicode.
+If you use a list, each string in the list should contain only whole sentences.
+The module is not able to merge partial sentences between one string and the next.</p>
+</div>
+<div class="section" id="stats">
+<h3>stats()<a class="headerlink" href="#stats" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">stats()</span></code> returns a tuple <code class="docutils literal notranslate"><span class="pre">(sentence_count,</span> <span class="pre">word_count,</span> <span class="pre">syllable_count)</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The following methods all return floating-point values, except for <code class="docutils literal notranslate"><span class="pre">Inflesz_scale()</span></code>, which returns a string.</p>
+</div>
+</div>
+<div class="section" id="fres">
+<h3>FRES()<a class="headerlink" href="#fres" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">FRES()</span></code> returns the Flesch Reading Ease Score.
+The score is computed as:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">206.835 - 84.6 * syllables / words - 1.015 * words / sentences</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="fk-grade">
+<h3>FK_grade()<a class="headerlink" href="#fk-grade" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">FL_grade()</span></code> returns the Flesch-Kincaid Grade Level.
+The score is computed as:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Flesch-Kincaid Grade Level: 0.39 * words / sentences + 11.8 * syllables / words - 15.59</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="fog-index">
+<h3>Fog_index()<a class="headerlink" href="#fog-index" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Fog_index()</span></code> returns the Gunning Fog index.
+The index is computed as:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Gunning Fog = 0.4 * ((words / sentences) + 100 * (complex_words / words))</div>
+<div class="line">where complex_words are words of more than two syllables.</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="smog-index">
+<h3>SMOG_index()<a class="headerlink" href="#smog-index" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">SMOG_index()</span></code> returns the SMOG index.
+The index is computed as:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">SMOG =1.043 * sqrt(30 * complex_words / sentences) + 3.1291</div>
+<div class="line">where complex_words are words of more than two syllables.</div>
+</div>
+</div></blockquote>
+<p>There should be a minimum of 30 sentences for the text sample.
+If the number of sentences is less than 30, <code class="docutils literal notranslate"><span class="pre">SMOG_index()</span></code> returns -1.0.</p>
+</div>
+<div class="section" id="huerta-ease">
+<h3>Huerta_ease()<a class="headerlink" href="#huerta-ease" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Huerta_ease()</span></code> is for Spanish text only.
+See <a class="reference internal" href="Spanish.html#spanish-notes"><span class="std std-ref">Notes on Spanish functionality</span></a>.
+The score is computed as:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">206.84 - 60 * (syllables / words) - 102 (sentences / words)</div>
+</div>
+</div></blockquote>
+<p>This is equivalent to the formula given in Huerta’s original 1959 paper:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Lect. = 206‘84 - 0‘60 P - 1‘02 F.</div>
+<div class="line">Where P is syllables per 100 words and F is sentences per 100 words.</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="huerta-corrected">
+<h3>Huerta_corrected()<a class="headerlink" href="#huerta-corrected" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Huerta_corrected()</span></code> is for Spanish text only.
+See <a class="reference internal" href="Spanish.html#spanish-notes"><span class="std std-ref">Notes on Spanish functionality</span></a>.
+The score is computed as:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">206.84 - 60 * (syllables / words) - 1.02 (words / sentences)</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="ifsz-index">
+<h3>IFSZ_index()<a class="headerlink" href="#ifsz-index" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">IFSZ_index()</span></code> is for Spanish text only.
+Its full name is “Formula de Perspicuidad (Clarity Formula) or Indice de Legibilidad de Flesch-Szigriszt (IFSZ, Flesch-Szigriszt Readability Index)”.
+See <a class="reference internal" href="Spanish.html#spanish-notes"><span class="std std-ref">Notes on Spanish functionality</span></a>.
+The score is computed as:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">IFSZ = 206.835 - (62.3 x syllables / words) - words / sentences.</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="inflesz-scale">
+<h3>Inflesz_scale()<a class="headerlink" href="#inflesz-scale" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Inflesz_scale()</span></code> is for Spanish text only.
+See <a class="reference internal" href="Spanish.html#spanish-notes"><span class="std std-ref">Notes on Spanish functionality</span></a>.
+This method returns one of “UNDEFINED”, “very easy”, “quite easy”, “normal”, “somewhat difficult”, and “very difficult”, depending on the text’s <code class="docutils literal notranslate"><span class="pre">IFSZ_index()</span></code> score.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="introduction.html" title="previous chapter">Introduction</a></li>
+      <li>Next: <a href="notes.html" title="next chapter">Notes on development</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018 Ray Gardner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/usage.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

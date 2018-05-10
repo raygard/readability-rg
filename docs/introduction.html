@@ -1,0 +1,119 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Introduction &#8212; Readability 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick start" href="usage.html" />
+    <link rel="prev" title="Readability" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="readability-a-module-for-computing-some-readability-metrics-for-english-and-spanish-text">
+<h2>Readability: A module for computing some readability metrics for English and Spanish text<a class="headerlink" href="#readability-a-module-for-computing-some-readability-metrics-for-english-and-spanish-text" title="Permalink to this headline">¶</a></h2>
+<p>Several years ago I wanted to run some common readability measures on a large number of English and Spanish documents.
+These measures, such as Flesch reading ease, Flesch-Kincaid grade level, SMOG, etc. have been used for years to gauge the approximate difficulty of reading text.
+Most of the measures are quite old, dating to 1948 for Flesch reading ease, but are still in use.
+Some have questioned the value of even attempting to evaluate readability in a mechanical fashion.
+(See e.g. Geoffrey Marnell: Measuring Readability, retrieved 2018-04-20 at <a class="reference external" href="https://www.abelard.com.au/readability%20statistics.pdf">https://www.abelard.com.au/readability%20statistics.pdf</a>.)</p>
+<p>Nevertheless, there were people wanting to know the Flesch-Kincaid grade level of some documents in question.
+We found that at least in the early days of Microsoft Word, the implementation of Flesch-Kincaid changed from one release of Word to the next, leaving us wondering how accurate any of them are.
+Also, with Word it is unclear exactly what was considered a “sentence” for this purpose, or how accurately syllables were counted, etc.
+I was unable to find suitable Python code to compute these measures, so I started to develop my own.
+For various reasons this project was sidetracked before it was complete.
+I recently have had some time to work on it again, at least to the point I feel ready to release it.</p>
+<p>I also wanted to compute readability measures for Spanish text, so I also implemented the Fernandez Huerta measure, the Flesch-Szigriszt Readability Index, and the Inflesz Scale Grade.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">I have included PDF copies of most of the materials used or referenced in developing this project.</p>
+</div>
+</div>
+<div class="section" id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<p>The readability module can tokenize a document of Unicode text into words and sentences, and also count the syllables of the words, as needed for most common readability measures.
+It can then report some common readability measures such as Flesch Reading Ease, Flesh-Kincaid grade level, SMOG, etc.</p>
+<p>It can also show its work! It will return a list of sentences it has tokenized, optionally showing the syllable count for each word.</p>
+<p>Another option is to have it return dictionaries of words and separators with frequency counts.</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>The module defines a class <code class="docutils literal notranslate"><span class="pre">Readability</span></code>.
+To use it, you must create an instance for each document you want to process, then pass the text to its <code class="docutils literal notranslate"><span class="pre">read()</span></code> method.
+The module uses a regular expression to tokenize the text into “words” and “separators”.
+The definition of a “word” includes numbers and URLs, and also includes some punctuation that may indicate the end of a sentence, such as “.”, “?”, and “!”.
+The module uses a heuristic routine to break the words and separators into sentences, and then uses a separate module to count the syllables in each word.
+These functions are explained in more detail in the “Notes on development” section.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Readability</a></li>
+      <li>Next: <a href="usage.html" title="next chapter">Quick start</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018 Ray Gardner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/introduction.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
